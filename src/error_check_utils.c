@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:36:00 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/26 13:54:44 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:35:29 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int	member_validity(int c, int p, int e)
 	result = 1;
 	if (c < 1)
 	{
-		ft_putstr_fd("Not enough collectibles\n", 2);
+		ft_putstr_fd("Error: Not enough collectibles\n", 2);
 		result = 0;
 	}
 	if (p != 1)
 	{
-		ft_putstr_fd("Invalid player number\n", 2);
+		ft_putstr_fd("Error: Invalid player number\n", 2);
 		result = 0;
 	}
 	if (e != 1)
 	{
-		ft_putstr_fd("Invalid exit\n", 2);
+		ft_putstr_fd("Error: Invalid exit\n", 2);
 		result = 0;
 	}
 	return (result);
@@ -58,4 +58,3 @@ void	image_load_failed(t_game *game)
 	game->mlx = NULL;
 	free_map(game);
 }
-

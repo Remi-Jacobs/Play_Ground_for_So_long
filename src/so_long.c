@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:36:42 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/26 20:07:53 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:34:44 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ int	main(int argc, char *argv[])
 	t_game	game;
 
 	if (argc != 2)
-	{
-		ft_putstr_fd("Error: Invailid argument number\n", 2);
-		return (1);
-	}
+		return (ft_putstr_fd("Error: Invailid argument number\n", 2), 1);
 	check_ber(argv[1]);
 	game.map = count_rows_and_allocate(argv[1], &game.rows);
 	if (!game.map)
