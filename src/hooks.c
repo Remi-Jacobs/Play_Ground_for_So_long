@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:16:38 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/27 13:56:21 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:31:14 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,11 @@ int	key_hook(int keycode, t_game *game)
 	static int	move_count;
 	int			new_x;
 	int			new_y;
+	static int	check;
 
+	if (check == 0)
+		move_count = -1;
+	check++;
 	new_x = game->player_x;
 	new_y = game->player_y;
 	handle_movement(keycode, &new_x, &new_y);
