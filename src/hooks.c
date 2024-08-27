@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:16:38 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/26 18:53:08 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/27 13:17:30 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,41 +37,35 @@ void	update_exit_image(t_game *game)
 	}
 }
 
-void	handle_movement(int keycode, int *new_x, int *new_y, int *move_count)
+void	handle_movement(int keycode, int *new_x, int *new_y)
 {
 	if (keycode == KEY_W)
 	{
 		(*new_y)--;
-		(*move_count)++;
-		ft_printf("Total moves = %d\n", *move_count);
 	}
 	else if (keycode == KEY_S)
 	{
 		(*new_y)++;
-		(*move_count)++;
-		ft_printf("Total moves = %d\n", *move_count);
 	}
 	else if (keycode == KEY_A)
 	{
 		(*new_x)--;
-		(*move_count)++;
-		ft_printf("Total moves = %d\n", *move_count);
 	}
 	else if (keycode == KEY_D)
 	{
 		(*new_x)++;
-		(*move_count)++;
-		ft_printf("Total moves = %d\n", *move_count);
 	}
 }
 
-void	update_position(t_game *game, int new_x, int new_y)
+void	update_position(t_game *game, int new_x, int new_y, int *move_count)
 {
 	char	next_tile;
 
 	next_tile = game->map[new_y][new_x];
 	if (next_tile != '1')
 	{
+		(*move_count)++;
+		ft_printf("Total moves = %d\n", *move_count);
 		if (game->map[game->player_y][game->player_x] == 'E')
 			game->map[game->player_y][game->player_x] = 'E';
 		else
@@ -112,13 +106,13 @@ int	key_hook(int keycode, t_game *game)
 
 	new_x = game->player_x;
 	new_y = game->player_y;
-	handle_movement(keycode, &new_x, &new_y, &move_count);
+	handle_movement(keycode, &new_x, &new_y);
 	if (keycode == KEY_ESC)
 	{
 		close_game(game);
 	}
 	check_tile(game, new_x, new_y);
-	update_position(game, new_x, new_y);
+	update_position(game, new_x, new_y, &move_count);
 	update_exit_image(game);
 	render_map(game);
 	return (0);
