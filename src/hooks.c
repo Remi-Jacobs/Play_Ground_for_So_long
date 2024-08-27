@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:16:38 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/27 13:17:30 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/27 13:56:21 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	update_position(t_game *game, int new_x, int new_y, int *move_count)
 	}
 }
 
-void	check_tile(t_game *game, int new_x, int new_y)
+void	check_tile(t_game *game, int new_x, int new_y, int *move_count)
 {
 	char	next_tile;
 
@@ -92,6 +92,8 @@ void	check_tile(t_game *game, int new_x, int new_y)
 		else if (next_tile == 'E' && game->collected \
 		== game->total_collectibles)
 		{
+			(*move_count)++;
+			ft_printf("Total moves = %d\n", *move_count);
 			ft_putstr_fd("You win!\n", 1);
 			close_game(game);
 		}
@@ -111,7 +113,7 @@ int	key_hook(int keycode, t_game *game)
 	{
 		close_game(game);
 	}
-	check_tile(game, new_x, new_y);
+	check_tile(game, new_x, new_y, &move_count);
 	update_position(game, new_x, new_y, &move_count);
 	update_exit_image(game);
 	render_map(game);
