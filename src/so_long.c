@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:36:42 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/26 20:34:44 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/27 15:04:25 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char *argv[])
 	game.map = count_rows_and_allocate(argv[1], &game.rows);
 	if (!game.map)
 	{
-		ft_putstr_fd("failed to load\n", 2);
+		ft_putstr_fd("Error: failed to load\n", 2);
 		return (1);
 	}
 	pre_load_map(argv[1], game.map);
