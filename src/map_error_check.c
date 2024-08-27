@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:34:01 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/26 12:17:19 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:11:21 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int	foreign_objects(char **map, int row_count, int col_count)
 		{
 			if (!is_allowed_char(map[i][j], objects))
 			{
-				ft_putstr_fd("Foreign object in map\n", 2);
+				ft_putstr_fd("Error: Foreign object in map\n", 2);
 				return (0);
 			}
 		}

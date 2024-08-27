@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:32:25 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/26 19:51:26 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:12:01 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_ber(const char *filename)
 		return (1);
 	else
 	{
-		ft_printf("Invalid file extension. Please use a .ber file\n");
+		ft_printf("Error: Invalid file extension. Please use a .ber file\n");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -54,7 +54,7 @@ char	**count_rows_and_allocate(const char *filename, int *row_count_ptr)
 	}
 	close(fd);
 	if (row_count == 0)
-		return (ft_printf("Empty file\n"), NULL);
+		return (ft_printf("Error: Empty file\n"), NULL);
 	rows = ft_calloc(row_count + 1, sizeof(char *));
 	if (!rows)
 		return (perror("ft_calloc"), NULL);
