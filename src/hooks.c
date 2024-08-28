@@ -6,7 +6,7 @@
 /*   By: ojacobs <ojacobs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:16:38 by ojacobs           #+#    #+#             */
-/*   Updated: 2024/08/27 14:31:14 by ojacobs          ###   ########.fr       */
+/*   Updated: 2024/08/28 15:23:58 by ojacobs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	update_exit_image(t_game *game)
 	{
 		mlx_destroy_image(game->mlx, game->img_exit);
 		game->img_exit = mlx_xpm_file_to_image(game->mlx, \
-		"./Images/Gate_Opened.xpm", &game->map_width, &game->map_height);
+	"./Images/Gate_Opened.xpm", &game->map_width, &game->map_height);
 	}
 	if (game->collected >= (game->total_collectibles / 2))
 	{
@@ -32,40 +32,42 @@ void	update_exit_image(t_game *game)
 	if (game->collected >= ((i / 2) + (i / 4)))
 	{
 		mlx_destroy_image(game->mlx, game->img_floor);
-		game->img_floor = mlx_xpm_file_to_image(game->mlx, \
+		game->img_floor = mlx_xpm_file_to_image(game->mlx,\
 		"./Images/Rainbow.xpm", &game->map_width, &game->map_height);
 	}
 }
 
-void	handle_movement(int keycode, int *new_x, int *new_y)
+void handle_movement(t_game *game, int *count, int keycode, int *new_x, int *new_y)
 {
-	if (keycode == KEY_W)
+	char next_tile;
+
+	if (keycode == KEY_A || keycode == KEY_D || \
+	keycode == KEY_S || keycode == KEY_W)
 	{
-		(*new_y)--;
-	}
-	else if (keycode == KEY_S)
-	{
-		(*new_y)++;
-	}
-	else if (keycode == KEY_A)
-	{
-		(*new_x)--;
-	}
-	else if (keycode == KEY_D)
-	{
-		(*new_x)++;
+		if (keycode == KEY_W)
+			next_tile = game->map[(*new_y) - 1][*new_x],(*new_y)--;
+		
+		else if (keycode == KEY_S)
+			next_tile = game->map[(*new_y) + 1][(*new_x)],(*new_y)++;
+		else if (keycode == KEY_A)
+			next_tile = game->map[(*new_y)][(*new_x) - 1],(*new_x)--;
+		else if (keycode == KEY_D)
+			next_tile = game->map[(*new_y)][(*new_x) + 1],(*new_x)++;
+		if (next_tile == '0' || next_tile == 'E' || next_tile == 'C')
+		{
+			(*count)++;
+			ft_printf("Total moves = %d\n", *count);
+		}
 	}
 }
 
-void	update_position(t_game *game, int new_x, int new_y, int *move_count)
+void	update_position(t_game *game, int new_x, int new_y)
 {
 	char	next_tile;
 
 	next_tile = game->map[new_y][new_x];
 	if (next_tile != '1')
 	{
-		(*move_count)++;
-		ft_printf("Total moves = %d\n", *move_count);
 		if (game->map[game->player_y][game->player_x] == 'E')
 			game->map[game->player_y][game->player_x] = 'E';
 		else
@@ -77,7 +79,7 @@ void	update_position(t_game *game, int new_x, int new_y, int *move_count)
 	}
 }
 
-void	check_tile(t_game *game, int new_x, int new_y, int *move_count)
+void	check_tile(t_game *game, int new_x, int new_y)
 {
 	char	next_tile;
 
@@ -92,8 +94,6 @@ void	check_tile(t_game *game, int new_x, int new_y, int *move_count)
 		else if (next_tile == 'E' && game->collected \
 		== game->total_collectibles)
 		{
-			(*move_count)++;
-			ft_printf("Total moves = %d\n", *move_count);
 			ft_putstr_fd("You win!\n", 1);
 			close_game(game);
 		}
@@ -102,23 +102,23 @@ void	check_tile(t_game *game, int new_x, int new_y, int *move_count)
 
 int	key_hook(int keycode, t_game *game)
 {
-	static int	move_count;
-	int			new_x;
-	int			new_y;
-	static int	check;
+	static int move_count;
+	int new_x;
+	int new_y;
+	static int check;
 
 	if (check == 0)
 		move_count = -1;
 	check++;
 	new_x = game->player_x;
 	new_y = game->player_y;
-	handle_movement(keycode, &new_x, &new_y);
+	handle_movement(game, &move_count, keycode, &new_x, &new_y);
 	if (keycode == KEY_ESC)
 	{
 		close_game(game);
 	}
-	check_tile(game, new_x, new_y, &move_count);
-	update_position(game, new_x, new_y, &move_count);
+	check_tile(game, new_x, new_y);
+	update_position(game, new_x, new_y);
 	update_exit_image(game);
 	render_map(game);
 	return (0);
